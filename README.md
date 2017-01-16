@@ -13,13 +13,15 @@
 
 ## Todo
 
-- Enter stop number and time
+x Enter stop number and time
 - Send subscription info to server
 - Customize notification text and icons
+- Store subscription info in localdb
+- Multiple cards for all subscriptions
+- Show subscription info when offline
 - Store subscription info in db
 - Remove subscription info from db when unregistering
 - Query stop information
-- Show subscription info when offline
 - Customize icons for pwa
 - Validate stop number
 - Run server as timer

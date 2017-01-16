@@ -137,7 +137,7 @@
             .then(function(subscription) {
                 isSubscribed = !(subscription === null);
 
-                updateSubscriptionOnServer(subscription);
+                //updateSubscriptionOnServer(subscription);
 
                 if (isSubscribed) {
                     console.log('User IS subscribed.');
@@ -181,7 +181,7 @@
                 console.log('Error unsubscribing', error);
             })
             .then(function() {
-                updateSubscriptionOnServer(null);
+                //updateSubscriptionOnServer(null);
 
                 console.log('User is unsubscribed.');
                 isSubscribed = false;
@@ -191,8 +191,20 @@
     }
 
     function updateSubscriptionOnServer(subscription) {
-        // send the subscription to our server
+        // subscribe
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (request.readyState === XMLHttpRequest.DONE) {
+                if (request.status === 200) {
+                    var response = JSON.parse(request.response);
+                    console.log(response);
+                }
+            }
+        };
         console.log(JSON.stringify(subscription));
+        request.open('POST', 'https://sta-notification.azurewebsites.net/api/web-push', true);
+        request.setRequestHeader("Content-type", "application/json");
+        request.send(JSON.stringify(subscription));
     }
 
 
