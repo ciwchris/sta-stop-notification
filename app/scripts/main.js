@@ -36,12 +36,12 @@
     // local
     // var applicationServerPublicKey = 'BDj0qyq5MHTNjN-l9n_remx_1dqpPCWFh7JRyizWtodMylmlAtBduRlm7loBofdMaBn8pJEIo2lZ-nm1DIxgwhk';
     // Azure
-    var applicationServerPublicKey = 'BGPwmeJvcajyK7v-H3_tdESj9VwLpbO_I4oYrI4rnPlWERU2LGtrlD25oxGZ7vf0D8rJO4M0crHQ2SbhvCelahs';
+    const applicationServerPublicKey = 'BGPwmeJvcajyK7v-H3_tdESj9VwLpbO_I4oYrI4rnPlWERU2LGtrlD25oxGZ7vf0D8rJO4M0crHQ2SbhvCelahs';
 
-    var pushButton = document.querySelector('.js-push-btn');
+    const pushButton = document.querySelector('.js-push-btn');
 
-    var isSubscribed = false;
-    var swRegistration = null;
+    let isSubscribed = false;
+    let swRegistration = null;
 
 
     if ('serviceWorker' in navigator && 'PushManager' in window &&
@@ -114,9 +114,9 @@
         }
 
         if (isSubscribed) {
-            pushButton.textContent = 'Disable Push Messaging';
+            pushButton.textContent = 'Disable notification';
         } else {
-            pushButton.textContent = 'Enable Push Messaging';
+            pushButton.textContent = 'Enable notification';
         }
 
         pushButton.disabled = false;
