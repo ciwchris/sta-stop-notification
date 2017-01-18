@@ -13,19 +13,18 @@
 
 ## Todo
 
-x Enter stop number and time
-- Send subscription info to server
-- Customize notification text and icons
+- ✓Enter stop number and time
+- ✓Send subscription info to server
+- Customize icons and notification text with its icons
 - Store subscription info in localdb
 - Multiple cards for all subscriptions
 - Show subscription info when offline
 - Store subscription info in db
 - Remove subscription info from db when unregistering
 - Query stop information
-- Customize icons for pwa
 - Validate stop number
 - Run server as timer
-- Vibrate on notification
+- Handle denied access and not supported
 
 
 # [![Web Starter Kit](https://cloud.githubusercontent.com/assets/110953/11445049/f05512ba-9520-11e5-8fdb-8c8eb5f690d0.jpg)](https://github.com/google/web-starter-kit/releases/latest)
