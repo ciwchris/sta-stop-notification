@@ -23,7 +23,8 @@
     // Check to make sure service workers are supported in the current browser,
     // and that the current page is accessed from a secure origin. Using a
     // service worker from an insecure origin will trigger JS console errors. See
-    // http://www.chromium.org/Home/chromium-security/prefer-secure-origins-for-powerful-new-features
+    // http://www.chromium.org/Home/chromium-security
+    // /prefer-secure-origins-for-powerful-new-features
     var isLocalhost = Boolean(window.location.hostname === 'localhost' ||
                               // [::1] is the IPv6 localhost address.
                               window.location.hostname === '[::1]' ||
@@ -33,16 +34,13 @@
                               )
                              );
 
-    // local
-    // var applicationServerPublicKey = 'BDj0qyq5MHTNjN-l9n_remx_1dqpPCWFh7JRyizWtodMylmlAtBduRlm7loBofdMaBn8pJEIo2lZ-nm1DIxgwhk';
-    // Azure
-    const applicationServerPublicKey = 'BGPwmeJvcajyK7v-H3_tdESj9VwLpbO_I4oYrI4rnPlWERU2LGtrlD25oxGZ7vf0D8rJO4M0crHQ2SbhvCelahs';
+    const applicationServerPublicKey = 'BGPwmeJvcajyK7v-H3_tdESj9VwLpbO_I4oYrI4rnPlWERU2LGtrlD25o' +
+          'xGZ7vf0D8rJO4M0crHQ2SbhvCelahs';
 
     const pushButton = document.querySelector('.js-push-btn');
 
     let isSubscribed = false;
     let swRegistration = null;
-
 
     if ('serviceWorker' in navigator && 'PushManager' in window &&
         (window.location.protocol === 'https:' || isLocalhost)) {
@@ -59,7 +57,9 @@
                     // i.e. whether there's an existing service worker.
                     if (navigator.serviceWorker.controller) {
                         // The updatefound event implies that registration.installing is set:
-                        // https://slightlyoff.github.io/ServiceWorker/spec/service_worker/index.html#service-worker-container-updatefound-event
+                        // https://slightlyoff.github.io/
+                        // ServiceWorker/spec/service_worker/index.html
+                        // #service-worker-container-updatefound-event
                         var installingWorker = registration.installing;
 
                         installingWorker.onstatechange = function() {
@@ -90,6 +90,11 @@
 
     // Your custom JavaScript goes here
 
+    /**
+     * Changes base64 string to array for push notification subscription
+     * @param {string} base64String the base64 to transform
+     * @return {int[]} the transformed string
+     */
     function urlB64ToUint8Array(base64String) {
         var padding = '='.repeat((4 - base64String.length % 4) % 4);
         var base64 = (base64String + padding)
@@ -105,6 +110,9 @@
         return outputArray;
     }
 
+    /**
+     * Update push notification button to proper state
+     */
     function updateBtn() {
         if (Notification.permission === 'denied') {
             pushButton.textContent = 'Push Messaging Blocked.';
@@ -122,6 +130,9 @@
         pushButton.disabled = false;
     }
 
+    /**
+     * Shows UI elements when service workers and push notifications are supported
+     */
     function initialiseUI() {
         pushButton.addEventListener('click', function() {
             pushButton.disabled = true;
@@ -137,8 +148,6 @@
             .then(function(subscription) {
                 isSubscribed = !(subscription === null);
 
-                //updateSubscriptionOnServer(subscription);
-
                 if (isSubscribed) {
                     console.log('User IS subscribed.');
                 } else {
@@ -149,6 +158,9 @@
             });
     }
 
+    /**
+     * Subscribes the browser to push notifications
+     */
     function subscribeUser() {
         var applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
         swRegistration.pushManager.subscribe({
@@ -170,6 +182,9 @@
             });
     }
 
+    /**
+     * Unsubscribes the browser to push notifications
+     */
     function unsubscribeUser() {
         swRegistration.pushManager.getSubscription()
             .then(function(subscription) {
@@ -181,8 +196,6 @@
                 console.log('Error unsubscribing', error);
             })
             .then(function() {
-                //updateSubscriptionOnServer(null);
-
                 console.log('User is unsubscribed.');
                 isSubscribed = false;
 
@@ -190,6 +203,10 @@
             });
     }
 
+    /**
+     * Notifies the server of the user subscription
+     * @param {string} subscription - the browser generated subscription id
+     */
     function updateSubscriptionOnServer(subscription) {
         // subscribe
         var request = new XMLHttpRequest();
@@ -203,9 +220,7 @@
         };
         console.log(JSON.stringify(subscription));
         request.open('POST', 'https://sta-notification.azurewebsites.net/api/web-push', true);
-        request.setRequestHeader("Content-type", "application/json");
+        request.setRequestHeader('Content-type', 'application/json');
         request.send(JSON.stringify(subscription));
     }
-
-
 })();
